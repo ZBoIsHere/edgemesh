@@ -12,7 +12,9 @@ require (
 	github.com/kubeedge/kubeedge v1.6.2
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/spf13/cobra v1.0.0
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/vishvananda/netlink v1.1.0
+	github.com/gorilla/mux v1.7.3
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	istio.io/api v0.0.0-20210131044048-bfeb10697307
 	istio.io/client-go v0.0.0-20210218000043-b598dd019200

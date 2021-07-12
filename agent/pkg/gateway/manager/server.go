@@ -19,7 +19,7 @@ import (
 	"github.com/kubeedge/edgemesh/agent/pkg/common/lister"
 )
 
-// Server is gateway server
+// Server is gateway httpserver
 type Server struct {
 	listener *net.TCPListener
 	stop     chan interface{}
@@ -70,7 +70,7 @@ func (srv *Server) serve() {
 			select {
 			case _, isClosed := <-srv.stop:
 				if !isClosed {
-					klog.Errorf("server stop to serve")
+					klog.Errorf("httpserver stop to serve")
 				}
 				return
 			default:
@@ -101,7 +101,7 @@ func (srv *Server) serve() {
 				}
 				certificate, err := tls.X509KeyPair(certBytes, keyBytes)
 				if err != nil {
-					klog.Errorf("transform x509 cert for tls server err: %v", err)
+					klog.Errorf("transform x509 cert for tls httpserver err: %v", err)
 					err = conn.Close()
 					if err != nil {
 						klog.Errorf("close conn err: %v", err)
