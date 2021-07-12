@@ -159,6 +159,7 @@ github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/daviddengcn/go-colortext v0.0.0-20160507010035-511bcaf42ccd/go.mod h1:dv4zxwHi5C/8AeI+4gX4dCWOIvNi7I6JCSX0HvlKPgE=
+github.com/dgrijalva/jwt-go v3.2.0+incompatible h1:7qlOGliEKZXTDg6OTjfoBKDXWrumCAMpl/TFQ4/5kLM=
 github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
 github.com/dgryski/go-sip13 v0.0.0-20181026042036-e10d5fee7954/go.mod h1:vAd38F8PWV+bWy6jNmig1y/TA+kYO4g3RSRF0IAv0no=
 github.com/dnaeon/go-vcr v1.0.1/go.mod h1:aBB1+wY4s93YsC3HHjMBMrwTj2R9FHDzUr9KyGc8n1E=
@@ -362,6 +363,7 @@ github.com/gopherjs/gopherjs v0.0.0-20181017120253-0766667cb4d1/go.mod h1:wJfORR
 github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e h1:JKmoR8x90Iww1ks85zJ1lfDGgIiMDuIptTOhJq+zKyg=
 github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e/go.mod h1:wJfORRmW1u3UXTncJ5qlYoELFm8eSnnEO6hX4iZ3EWY=
 github.com/gorilla/context v1.1.1/go.mod h1:kBGZzfjB9CEq2AlWe17Uuf7NDRt0dE0s8S51q0aT7Yg=
+github.com/gorilla/mux v1.7.3 h1:gnP5JzjVOuiZD07fKKToCAOjS0yOpj/qPETTXCCS6hw=
 github.com/gorilla/mux v1.7.3/go.mod h1:1lud6UwP+6orDFRuTfBEV8e9/aOM/c4fVVCaMa2zaAs=
 github.com/gorilla/websocket v0.0.0-20170926233335-4201258b820c/go.mod h1:E7qHFY5m1UJ88s3WnNqhKjPHQ0heANvMoAMk2YaljkQ=
 github.com/gorilla/websocket v1.3.0/go.mod h1:E7qHFY5m1UJ88s3WnNqhKjPHQ0heANvMoAMk2YaljkQ=
@@ -442,6 +444,7 @@ github.com/kubeedge/beehive v0.0.0-20201125122335-cd19bca6e436 h1:HbC6FyGrtyNpcg
 github.com/kubeedge/beehive v0.0.0-20201125122335-cd19bca6e436/go.mod h1:98VgUi/n7HZkxT3Q7Lak75kPtIRRrWam02BgqgT0tkE=
 github.com/kubeedge/kubeedge v1.6.2 h1:JDo4fGUriUk5fPUC8fg1l50B3jOzcU8LoPZo+19vNUc=
 github.com/kubeedge/kubeedge v1.6.2/go.mod h1:5a1Svm5nmIfDF4MpMHeX1krhVx+nueVQBh1DtBSmP5A=
+github.com/kubeedge/kubeedge v1.7.0 h1:fH1yXJs4soEKmnTkPPdW8wnnuGAfRNMMfPcUc2hMyyQ=
 github.com/kubeedge/viaduct v0.0.0-20210601015050-d832643a3d35/go.mod h1:9YFeEaWK8WdVl+sjcQlhuRe1rEhWz3Nu/l29CKmL+EY=
 github.com/kubernetes-csi/csi-lib-utils v0.6.1/go.mod h1:GVmlUmxZ+SUjVLXicRFjqWUUvWez0g0Y78zNV9t7KfQ=
 github.com/kylelemons/godebug v0.0.0-20170820004349-d65d576e9348/go.mod h1:B69LEHPfb2qLo0BaaOLcbitczOKLWTsrBG9LczfCD4k=
@@ -1044,6 +1047,7 @@ k8s.io/apimachinery v0.19.3/go.mod h1:DnPGDnARWFvYa3pMHgSxtbZb7gpzzAZ1pTfaUNDVlm
 k8s.io/apimachinery v0.19.10 h1:icUAE7gRZ1lAfQcwejs5kJtWBNa7uOXYL53pAuUW19U=
 k8s.io/apimachinery v0.19.10/go.mod h1:9eb44nUQSsz9QZiilFRuMj3ZbTmoWolU8S2gnXoRMjo=
 k8s.io/apiserver v0.19.3/go.mod h1:bx6dMm+H6ifgKFpCQT/SAhPwhzoeIMlHIaibomUDec0=
+k8s.io/apiserver v0.19.10 h1:sGC2quUUqZ+yJNKC6E9uOiORxe2VNcgJRfwbg0gAUq0=
 k8s.io/apiserver v0.19.10/go.mod h1:kmUiThSt+QHVWZmlskXRXa+ODBgZkeTi5m+LgJvD1pk=
 k8s.io/cli-runtime v0.19.3/go.mod h1:q+l845i5/uWzcUpCrl+L4f3XLaJi8ZeLVQ/decwty0A=
 k8s.io/cli-runtime v0.19.10/go.mod h1:jwfyV9E4s69e3LRaAhGyEe4z+aJDeCPVvEEglOAXCmg=
@@ -1079,6 +1083,7 @@ k8s.io/klog/v2 v2.2.0/go.mod h1:Od+F08eJP+W3HUb4pSrPpgp9DGU4GzlpG/TmITuYh/Y=
 k8s.io/kube-aggregator v0.19.3/go.mod h1:5KTkDBxx4YiAYUuqTGmwjH7v54hRdrykqzcPiF8hPJc=
 k8s.io/kube-controller-manager v0.19.3/go.mod h1:KOwGP13h7FuFVldpunTEjLCAMVbDQODjl0qInCSUMiA=
 k8s.io/kube-openapi v0.0.0-20200121204235-bf4fb3bd569c/go.mod h1:GRQhZsXIAJ1xR0C9bd8UpWHZ5plfAS9fzPjJuQ6JL3E=
+k8s.io/kube-openapi v0.0.0-20200805222855-6aeccd4b50c6 h1:+WnxoVtG8TMiudHBSEtrVL1egv36TkkJm+bA8AxicmQ=
 k8s.io/kube-openapi v0.0.0-20200805222855-6aeccd4b50c6/go.mod h1:UuqjUnNftUyPE5H64/qeyjQoUZhGpeFDVdxjTeEVN2o=
 k8s.io/kube-proxy v0.19.3/go.mod h1:ZM9t3p+YkwOt/D8gnXOeu9MeVVgbzE0JGnqSnNmwsPY=
 k8s.io/kube-scheduler v0.19.3/go.mod h1:E/JO0m9xwbbo2qqo13OZupXOvHTrbOFscLSnOMC5TBM=
