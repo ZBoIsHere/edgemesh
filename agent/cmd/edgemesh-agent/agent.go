@@ -5,9 +5,8 @@ import (
 	"os"
 	"time"
 
-	"k8s.io/component-base/logs"
-
 	"github.com/kubeedge/edgemesh/agent/cmd/edgemesh-agent/app"
+	"k8s.io/component-base/logs"
 )
 
 func main() {

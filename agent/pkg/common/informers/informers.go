@@ -25,7 +25,7 @@ type Manager struct {
 	istioFactory istioinformers.SharedInformerFactory
 
 	lock      sync.Mutex
-	informers map[string]cache.SharedIndexInformer  // key is informer instance address
+	informers map[string]cache.SharedIndexInformer // key is informer instance address
 }
 
 func NewManager(config *v1alpha1.KubeAPIConfig) (*Manager, error) {

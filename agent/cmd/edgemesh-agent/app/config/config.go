@@ -5,18 +5,19 @@ import (
 	"os"
 	"path"
 
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/klog/v2"
-	"sigs.k8s.io/yaml"
-
-	"github.com/kubeedge/kubeedge/common/constants"
-	"github.com/kubeedge/kubeedge/pkg/apis/componentconfig/cloudcore/v1alpha1"
+	"github.com/kubeedge/edgemesh/common/certificate"
 
 	chassisconfig "github.com/kubeedge/edgemesh/agent/pkg/common/chassis/config"
 	dnsconfig "github.com/kubeedge/edgemesh/agent/pkg/dns/config"
 	gwconfig "github.com/kubeedge/edgemesh/agent/pkg/gateway/config"
 	proxyconfig "github.com/kubeedge/edgemesh/agent/pkg/proxy/config"
 	tunnelconfig "github.com/kubeedge/edgemesh/agent/pkg/tunnel/config"
+	meshConstants "github.com/kubeedge/edgemesh/common/constants"
+	"github.com/kubeedge/kubeedge/common/constants"
+	"github.com/kubeedge/kubeedge/pkg/apis/componentconfig/cloudcore/v1alpha1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/klog/v2"
+	"sigs.k8s.io/yaml"
 )
 
 const (
@@ -47,18 +48,21 @@ type Modules struct {
 	EdgeProxyConfig *proxyconfig.EdgeProxyConfig `json:"edgeProxy,omitempty"`
 	// EdgeGatewayConfig indicates edgegateway module config
 	EdgeGatewayConfig *gwconfig.EdgeGatewayConfig `json:"edgeGateway,omitempty"`
-	Tunnel *tunnelconfig.Tunnel `json:"tunnel,omitempty"`
+	// TunnelAgentConfig indicates tunnelagent module config
+	TunnelAgentConfig *tunnelconfig.TunnelAgentConfig `json:"tunnel,omitempty"`
 }
 
 // NewEdgeMeshAgentConfig returns a full EdgeMeshAgentConfig object
 func NewEdgeMeshAgentConfig() *EdgeMeshAgentConfig {
-	token := os.Getenv("test")
-	if token == "" {
-		klog.Fatal("CloudCore Token is empty, Please provide")
+	nodeName, isExist := os.LookupEnv(meshConstants.MY_NODE_NAME)
+	if !isExist {
+		klog.Fatalf("env %s not exist", meshConstants.MY_NODE_NAME)
+		os.Exit(1)
 	}
-	hostnameOverride, err := os.Hostname()
-	if err != nil {
-		hostnameOverride = constants.DefaultHostnameOverride
+	cloudcoreToken, isExist := os.LookupEnv(meshConstants.CLOUDCORE_TOKEN)
+	if !isExist {
+		klog.Fatalf("env %s not exist", meshConstants.CLOUDCORE_TOKEN)
+		os.Exit(1)
 	}
 
 	c := &EdgeMeshAgentConfig{
@@ -107,16 +111,17 @@ func NewEdgeMeshAgentConfig() *EdgeMeshAgentConfig {
 				IncludeIP: "*",
 				ExcludeIP: "*",
 			},
-			Tunnel: &tunnelconfig.Tunnel{
-				Enable:             true,
-				Heartbeat:          15,
-				TLSCAFile:          constants.DefaultCAFile,
-				TLSCertFile:        constants.DefaultCertFile,
-				TLSPrivateKeyFile:  constants.DefaultKeyFile,
-				RotateCertificates: true,
-				HostnameOverride:   hostnameOverride,
-				// TODO fetch token from env or file ,which come from the tokensecret
-				Token: token,
+			TunnelAgentConfig: &tunnelconfig.TunnelAgentConfig{
+				Enable: true,
+				TunnelCertificate: certificate.TunnelCertificate{
+					TLSCAFile:          constants.DefaultCAFile,
+					TLSCertFile:        constants.DefaultCertFile,
+					TLSPrivateKeyFile:  constants.DefaultKeyFile,
+					Token:              cloudcoreToken,
+					HTTPServer:         "https://127.0.0.1:10002",
+					RotateCertificates: true,
+				},
+				NodeName: nodeName,
 			},
 		},
 	}

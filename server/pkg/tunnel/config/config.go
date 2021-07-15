@@ -1,24 +1,15 @@
 package config
 
-import (
-	"sync"
+import "github.com/kubeedge/edgemesh/common/certificate"
 
-	"github.com/kubeedge/edgemesh/pkg/apis/componentconfig/edgemesh-server/v1alpha1"
-)
-
-var Config Configure
-var once sync.Once
-
-type Configure struct {
-	v1alpha1.Tunnel
-	NodeName string
-}
-
-func InitConfigure(tunnel *v1alpha1.Tunnel) {
-	once.Do(func() {
-		Config = Configure{
-			Tunnel:   *tunnel,
-			NodeName: tunnel.HostnameOverride,
-		}
-	})
+// Tunnel indicates networking module config
+type TunnelServerConfig struct {
+	// Enable indicates whether Tunnel is enabled,
+	// if set to false (for debugging etc.), skip checking other Networking configs.
+	// default true
+	Enable bool `json:"enable,omitempty"`
+	// TunnelCertificate indicates the set of tunnel server config about certificate
+	certificate.TunnelCertificate
+	// NodeName indicates the node name of tunnel server
+	NodeName string `json:"nodeName"`
 }

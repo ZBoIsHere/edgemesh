@@ -137,7 +137,7 @@ func (esd *EdgeServiceDiscovery) FindMicroServiceInstances(consumerID, microServ
 					InstanceID:   fmt.Sprintf("%s.%s|%s.%d", namespace, name, p.Status.HostIP, hostPort),
 					ServiceID:    fmt.Sprintf("%s#%s#%s", namespace, name, p.Status.HostIP),
 					HostName:     "",
-					EndpointsMap: map[string]string{proto: fmt.Sprintf("%s:%d", p.Status.HostIP, hostPort)},
+					EndpointsMap: map[string]string{proto: fmt.Sprintf("%s:%s:%d", p.Spec.NodeName, p.Status.HostIP, hostPort)},
 				})
 			}
 		}
