@@ -20,11 +20,21 @@ spec:
       hostNetwork: true
       containers:
       - name: edgemesh-server
-        image: kubeedge/edgemesh-server:v1.7.1
+        image: kubeedge/edgemesh-server:latest
         imagePullPolicy: IfNotPresent
+        env:
+          - name: CLOUDCORE_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: tokensecret
+                key: tokendata
+          - name: MY_NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
         ports:
-        - containerPort: 10002
-          name: cloudhub
+        - containerPort: 10006
+          name: relay
           protocol: TCP
         resources:
           limits:
@@ -41,7 +51,6 @@ spec:
           - name: sock
             mountPath: /var/lib/kubeedge
       restartPolicy: Always
-      serviceAccount: edgemesh-server
       serviceAccountName: edgemesh-server
       volumes:
         - name: conf

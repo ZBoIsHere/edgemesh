@@ -33,6 +33,16 @@ spec:
             privileged: true
           image: kubeedge/edgemesh-agent:latest
           imagePullPolicy: IfNotPresent
+          env:
+            - name: CLOUDCORE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: tokensecret
+                  key: tokendata
+            - name: MY_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
           resources:
             limits:
               cpu: 200m
