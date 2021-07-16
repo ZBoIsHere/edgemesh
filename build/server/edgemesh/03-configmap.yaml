@@ -8,12 +8,7 @@ metadata:
     kubeedge: edgemesh-server
 data:
   edgemesh-server.yaml: |
-    kubeAPIConfig:
-      kubeConfig: ""
-      master: ""
     modules:
       tunnel:
-        https:
-          address: 0.0.0.0
-          enable: true
-          port: 10002
+        enable: true
+        httpServer: "https://119.8.58.38:10002"
