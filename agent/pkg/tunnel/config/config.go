@@ -1,31 +1,53 @@
 package config
 
-type Tunnel struct {
-	// Enable indicates whether EdgeHub is enabled,
-	// if set to false (for debugging etc.), skip checking other EdgeHub configs.
+import (
+	"os"
+
+	"github.com/kubeedge/edgemesh/common/certificate"
+	meshConstants "github.com/kubeedge/edgemesh/common/constants"
+	"github.com/kubeedge/kubeedge/common/constants"
+	"k8s.io/klog/v2"
+)
+
+type TunnelAgentConfig struct {
+	// Enable indicates whether TunnelAgent is enabled,
+	// if set to false (for debugging etc.), skip checking other TunnelAgent configs.
 	// default true
 	Enable bool `json:"enable"`
-	// Heartbeat indicates heart beat (second)
-	// default 15
-	Heartbeat int32 `json:"heartbeat,omitempty"`
-	// TLSCAFile set ca file path
-	// default "/etc/kubeedge/ca/rootCA.crt"
-	TLSCAFile string `json:"tlsCaFile,omitempty"`
-	// TLSCertFile indicates the file containing x509 Certificate for HTTPS
-	// default "/etc/kubeedge/certs/server.crt"
-	TLSCertFile string `json:"tlsCertFile,omitempty"`
-	// TLSPrivateKeyFile indicates the file containing x509 private key matching tlsCertFile
-	// default "/etc/kubeedge/certs/server.key"
-	TLSPrivateKeyFile string `json:"tlsPrivateKeyFile,omitempty"`
-	// Token indicates the priority of joining the cluster for the edge
-	Token string `json:"token"`
-	// HTTPServer indicates the server for edge to apply for the certificate.
-	HTTPServer string `json:"httpServer,omitempty"`
-	// RotateCertificates indicates whether edge certificate can be rotated
-	// default true
-	RotateCertificates bool `json:"rotateCertificates,omitempty"`
-	// HostnameOverride indicates hostname
-	// default os.Hostname()
-	HostnameOverride string `json:"hostnameOverride,omitempty"`
+	// TunnelServer indicates the server address of edgemesh server
+	TunnelServer string `json:"tunnelServer"`
+	// TunnelCertificate indicates the set of tunnel agent config about certificate
+	certificate.TunnelCertificate
+	// NodeName indicates the node name of tunnel agent
+	NodeName string `json:"nodeName"`
+	// ListenPort indicates the listen port of tunnel agent
+	// default 10006
+	ListenPort int `json:"listenPort"`
+}
 
+func NewTunnelAgentConfig() *TunnelAgentConfig {
+	nodeName, isExist := os.LookupEnv(meshConstants.MY_NODE_NAME)
+	if !isExist {
+		klog.Fatalf("env %s not exist", meshConstants.MY_NODE_NAME)
+		os.Exit(1)
+	}
+	cloudcoreToken, isExist := os.LookupEnv(meshConstants.CLOUDCORE_TOKEN)
+	if !isExist {
+		klog.Fatalf("env %s not exist", meshConstants.CLOUDCORE_TOKEN)
+		os.Exit(1)
+	}
+
+	return &TunnelAgentConfig{
+		Enable: true,
+		TunnelCertificate: certificate.TunnelCertificate{
+			TLSCAFile:          constants.DefaultCAFile,
+			TLSCertFile:        constants.DefaultCertFile,
+			TLSPrivateKeyFile:  constants.DefaultKeyFile,
+			Token:              cloudcoreToken,
+			HTTPServer:         "https://127.0.0.1:10002",
+			RotateCertificates: true,
+		},
+		NodeName:   nodeName,
+		ListenPort: 10006,
+	}
 }
