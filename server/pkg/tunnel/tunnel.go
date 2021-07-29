@@ -3,6 +3,7 @@ package tunnel
 import (
 	"github.com/kubeedge/edgemesh/common/constants"
 	"github.com/kubeedge/edgemesh/server/pkg/tunnel/controller"
+	"github.com/libp2p/go-libp2p-core/host"
 	"k8s.io/klog/v2"
 )
 
@@ -12,7 +13,7 @@ func (t *TunnelServer) Run() {
 		klog.Infof("%s : %v/p2p/%s\n", "Tunnel server addr", v, t.Host.ID().Pretty())
 	}
 
-	err := controller.APIConn.SetPeerAddrInfo(constants.SERVER_ADDR_NAME, t.Host.ID(), t.Host.Addrs())
+	err := controller.APIConn.SetPeerAddrInfo(constants.SERVER_ADDR_NAME, host.InfoFromHost(t.Host))
 	if err != nil {
 		klog.Errorf("failed update [%s] addr %v to secret: %v", constants.SERVER_ADDR_NAME, t.Host.Addrs(), err)
 	}

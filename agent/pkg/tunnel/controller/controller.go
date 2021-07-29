@@ -53,6 +53,7 @@ func (c *TunnelAgentController) GetPeerAddrInfo(nodeName string) (info *peer.Add
 		return nil, fmt.Errorf("Get %s addr from api server err: %v", nodeName, err)
 	}
 
+	info = new(peer.AddrInfo)
 	err = info.UnmarshalJSON(infoBytes)
 	if err != nil {
 		return nil, fmt.Errorf("%s transfer to peer addr info err: %v", string(infoBytes), err)

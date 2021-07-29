@@ -14,8 +14,6 @@ type TunnelAgentConfig struct {
 	// if set to false (for debugging etc.), skip checking other TunnelAgent configs.
 	// default true
 	Enable bool `json:"enable"`
-	// TunnelServer indicates the server address of edgemesh server
-	TunnelServer string `json:"tunnelServer"`
 	// TunnelCertificate indicates the set of tunnel agent config about certificate
 	certificate.TunnelCertificate
 	// NodeName indicates the node name of tunnel agent

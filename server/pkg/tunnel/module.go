@@ -3,6 +3,7 @@ package tunnel
 import (
 	"context"
 	"fmt"
+
 	"github.com/kubeedge/beehive/pkg/core"
 	"github.com/kubeedge/edgemesh/common/certificate"
 	"github.com/kubeedge/edgemesh/common/informers"
@@ -18,8 +19,8 @@ import (
 
 // TunnelServer is on cloud, as a signal and relay server
 type TunnelServer struct {
-	Config      *config.TunnelServerConfig
-	Host        host.Host
+	Config *config.TunnelServerConfig
+	Host   host.Host
 }
 
 func newTunnelServer(c *config.TunnelServerConfig, ifm *informers.Manager) (server *TunnelServer, err error) {
@@ -39,7 +40,7 @@ func newTunnelServer(c *config.TunnelServerConfig, ifm *informers.Manager) (serv
 	if c.PublicIP != "" {
 		externalMultiAddr, err = ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", c.PublicIP, c.ListenPort))
 		if err != nil {
-			klog.Warningln(err)
+			klog.Warningf("New multiaddr err: %v", err)
 		}
 	}
 	addressFactory := func(addrs []ma.Multiaddr) []ma.Multiaddr {
