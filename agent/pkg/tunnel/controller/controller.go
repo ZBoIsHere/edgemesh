@@ -12,9 +12,7 @@ import (
 
 	"github.com/kubeedge/edgemesh/common/informers"
 	"github.com/libp2p/go-libp2p-core/peer"
-	ma "github.com/multiformats/go-multiaddr"
 	"k8s.io/client-go/tools/cache"
-	"k8s.io/klog/v2"
 )
 
 var (
@@ -44,32 +42,29 @@ func Init(ifm *informers.Manager) *TunnelAgentController {
 	return APIConn
 }
 
-func (c *TunnelAgentController) Get(nodeName string) (peerAddr ma.Multiaddr, err error) {
+func (c *TunnelAgentController) GetPeerAddrInfo(nodeName string) (info *peer.AddrInfo, err error) {
 	secret, err := c.secretLister.Secrets(constants.SECRET_NAMESPACE).Get(constants.SECRET_NAME)
 	if err != nil {
 		return nil, fmt.Errorf("Get %s addr from api server err: %v", nodeName, err)
 	}
-	addr := secret.Data[nodeName]
-	if len(addr) == 0 {
+
+	infoBytes := secret.Data[nodeName]
+	if len(infoBytes) == 0 {
 		return nil, fmt.Errorf("Get %s addr from api server err: %v", nodeName, err)
 	}
 
-	peerAddr, err = ma.NewMultiaddrBytes(addr)
+	err = info.UnmarshalJSON(infoBytes)
 	if err != nil {
-		return nil, fmt.Errorf("%s transfer to multiAddr err: %v", string(addr), err)
+		return nil, fmt.Errorf("%s transfer to peer addr info err: %v", string(infoBytes), err)
 	}
-	return peerAddr, nil
+
+	return info, nil
 }
 
-func (c *TunnelAgentController) SetSelfAddr2Secret(nodeName string, id peer.ID, addrs []ma.Multiaddr) error {
-	for k, v := range addrs {
-		newAddr := fmt.Sprintf("%v/p2p/%v", v, id)
-		newMultiAddr, err := ma.NewMultiaddr(newAddr)
-		if err != nil {
-			klog.Errorf("%s transfer to multiaddr err: %v", newAddr, err)
-			return err
-		}
-		addrs[k] = newMultiAddr
+func (c *TunnelAgentController) SetPeerAddrInfo(nodeName string, info *peer.AddrInfo) error {
+	peerAddrINfoBytes, err := info.MarshalJSON()
+	if err != nil {
+		return fmt.Errorf("Marshal node %s peer info err: %v", nodeName, err)
 	}
 
 	secret, err := c.secretLister.Secrets(constants.SECRET_NAMESPACE).Get(constants.SECRET_NAME)
@@ -79,11 +74,11 @@ func (c *TunnelAgentController) SetSelfAddr2Secret(nodeName string, id peer.ID, 
 
 	if secret.Data == nil {
 		secret.Data = make(map[string][]byte)
-	} else if bytes.Equal(secret.Data[nodeName], ma.Join(addrs...).Bytes()) {
+	} else if bytes.Equal(secret.Data[nodeName], peerAddrINfoBytes) {
 		return nil
 	}
 
-	secret.Data[nodeName] = ma.Join(addrs...).Bytes()
+	secret.Data[nodeName] = peerAddrINfoBytes
 	secret, err = c.secretOperator.Update(context.Background(), secret, v13.UpdateOptions{})
 	if err != nil {
 		return fmt.Errorf("Update secret %v err: ", secret, err)

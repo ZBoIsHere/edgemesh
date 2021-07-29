@@ -2,16 +2,15 @@ package tcp
 
 import (
 	"context"
+	"github.com/kubeedge/edgemesh/agent/pkg/tunnel/controller"
 	"io"
 	"net"
 	"sync"
 	"time"
 
-	"github.com/kubeedge/edgemesh/agent/pkg/tunnel/controller"
 	tcp_pb "github.com/kubeedge/edgemesh/agent/pkg/tunnel/protocol/tcp/pb"
 	"github.com/libp2p/go-libp2p-core/host"
 	"github.com/libp2p/go-libp2p-core/network"
-	"github.com/libp2p/go-libp2p-core/peer"
 	"github.com/libp2p/go-libp2p-core/protocol"
 	"github.com/libp2p/go-msgio/protoio"
 	"k8s.io/klog/v2"
@@ -112,14 +111,9 @@ func (tp *TCPProxyService) ProxyStreamHandler(s network.Stream) {
 
 func (tp *TCPProxyService) GetProxyStream(targetNodeName, targetIP string, targetPort int) (io.ReadWriteCloser, error) {
 	klog.Infof("Get %s proxy stream between %s", TCPProxyProtocol, targetNodeName)
-	destAddr, err := controller.APIConn.Get(targetNodeName)
+	destInfo, err := controller.APIConn.GetPeerAddrInfo(targetNodeName)
 	if err != nil {
 		klog.Errorf("Get %s addr err: %v", targetNodeName, err)
-		return nil, err
-	}
-	destInfo, err := peer.AddrInfoFromP2pAddr(destAddr)
-	if err != nil {
-		klog.Errorf("Transfer multiAddr %s to peer info err: %v", destAddr.String(), err)
 		return nil, err
 	}
 

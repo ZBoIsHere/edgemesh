@@ -20,15 +20,14 @@ type TunnelAgent struct {
 	TCPProxySvc *tcp.TCPProxyService
 }
 
-func newTunnelAgent(c *config.TunnelAgentConfig, ifm *informers.Manager) (agent *TunnelAgent, err error) {
-	agent = &TunnelAgent{Config: c}
+func newTunnelAgent(c *config.TunnelAgentConfig, ifm *informers.Manager) (*TunnelAgent, error) {
+	Agent = &TunnelAgent{Config: c}
 	if !c.Enable {
-		return agent, nil
+		return Agent, nil
 	}
 
 	controller.Init(ifm)
-	Agent = agent
-	return agent, nil
+	return Agent, nil
 }
 
 // Register register tunnelagent to beehive modules

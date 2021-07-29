@@ -9,6 +9,7 @@ import (
 	"github.com/kubeedge/edgemesh/common/constants"
 	"github.com/libp2p/go-libp2p"
 	circuit "github.com/libp2p/go-libp2p-circuit"
+	"github.com/libp2p/go-libp2p-core/host"
 	"github.com/libp2p/go-libp2p-core/peer"
 	ma "github.com/multiformats/go-multiaddr"
 	"k8s.io/klog/v2"
@@ -22,23 +23,17 @@ func (t *TunnelAgent) Run() {
 		return
 	}
 
-	relayAddr, err := controller.APIConn.Get(constants.SERVER_ADDR_NAME)
+	relay, err := controller.APIConn.GetPeerAddrInfo(constants.SERVER_ADDR_NAME)
 	if err != nil {
 		klog.Errorln(err)
 		return
 	}
 
-	raddrInfo, err := peer.AddrInfoFromP2pAddr(relayAddr)
-	if err != nil {
-		klog.Errorln(err)
-		return
-	}
-
-	host, err := libp2p.New(context.Background(),
+	h, err := libp2p.New(context.Background(),
 		libp2p.EnableRelay(circuit.OptActive),
 		libp2p.EnableAutoRelay(),
 		libp2p.ForceReachabilityPrivate(),
-		libp2p.StaticRelays([]peer.AddrInfo{*raddrInfo}),
+		libp2p.StaticRelays([]peer.AddrInfo{*relay}),
 		libp2p.ListenAddrStrings(fmt.Sprintf("/ip4/0.0.0.0/tcp/%d", t.Config.ListenPort)),
 		libp2p.EnableHolePunching(),
 		libp2p.Identity(privateKey),
@@ -49,15 +44,15 @@ func (t *TunnelAgent) Run() {
 		return
 	}
 
-	t.Host = host
-	t.TCPProxySvc = tcp.NewTCPProxyService(host)
+	t.Host = h
+	t.TCPProxySvc = tcp.NewTCPProxyService(h)
 	klog.Infoln("Start tunnel agent success")
 
 	isStop := false
 	for !isStop {
 		klog.Warningf("Tunnel agent connecting to tunnel server %s", t.Config.TunnelServer)
 		time.Sleep(2 * time.Second)
-		for _, v := range host.Addrs() {
+		for _, v := range h.Addrs() {
 			if _, err := v.ValueForProtocol(ma.P_CIRCUIT); err == nil {
 				klog.Infof("Tunnel agent connected to tunnel server %s", t.Config.TunnelServer)
 				isStop = true
@@ -67,10 +62,10 @@ func (t *TunnelAgent) Run() {
 	}
 
 	nodeName := t.Config.NodeName
-	controller.APIConn.SetSelfAddr2Secret(nodeName, host.ID(), host.Addrs())
+	controller.APIConn.SetPeerAddrInfo(nodeName, host.InfoFromHost(h))
 
 	// set tcp proxy handler
-	host.SetStreamHandler(tcp.TCPProxyProtocol, t.TCPProxySvc.ProxyStreamHandler)
+	h.SetStreamHandler(tcp.TCPProxyProtocol, t.TCPProxySvc.ProxyStreamHandler)
 
 	select {}
 	// TODO ifRotationDone() ????, 后面要添加这个东西，如果证书轮换了，要重新进行连接

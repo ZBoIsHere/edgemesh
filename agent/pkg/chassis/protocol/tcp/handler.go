@@ -12,7 +12,6 @@ import (
 	"github.com/go-chassis/go-chassis/core/handler"
 	"github.com/go-chassis/go-chassis/core/invocation"
 	"github.com/kubeedge/edgemesh/agent/pkg/chassis/config"
-	"github.com/kubeedge/edgemesh/agent/pkg/tunnel"
 	"k8s.io/klog/v2"
 )
 
@@ -94,6 +93,7 @@ func (h *L4ProxyHandler) Handle(chain *handler.Chain, i *invocation.Invocation, 
 		klog.Infof("Success proxy to %v", i.Endpoint)
 		cb(r)
 	} else {
+		/*
 		stream, err := tunnel.Agent.TCPProxySvc.GetProxyStream(targetNodeName, targetIP, targetPort)
 		if err != nil {
 			klog.Errorf("l4 proxy get proxy stream from %s error: %v", targetNodeName, err)
@@ -106,6 +106,8 @@ func (h *L4ProxyHandler) Handle(chain *handler.Chain, i *invocation.Invocation, 
 		wg.Wait()
 		klog.Infof("Success proxy to %v", i.Endpoint)
 		cb(r)
+
+		 */
 	}
 }
 

@@ -12,6 +12,7 @@ import (
 	"github.com/libp2p/go-libp2p"
 	circuit "github.com/libp2p/go-libp2p-circuit"
 	"github.com/libp2p/go-libp2p-core/host"
+	ma "github.com/multiformats/go-multiaddr"
 	"k8s.io/klog/v2"
 )
 
@@ -34,9 +35,24 @@ func newTunnelServer(c *config.TunnelServerConfig, ifm *informers.Manager) (serv
 		return server, err
 	}
 
+	var externalMultiAddr ma.Multiaddr
+	if c.PublicIP != "" {
+		externalMultiAddr, err = ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", c.PublicIP, c.ListenPort))
+		if err != nil {
+			klog.Warningln(err)
+		}
+	}
+	addressFactory := func(addrs []ma.Multiaddr) []ma.Multiaddr {
+		if externalMultiAddr != nil {
+			addrs = append(addrs, externalMultiAddr)
+		}
+		return addrs
+	}
+
 	host, err := libp2p.New(
 		context.Background(),
 		libp2p.ListenAddrStrings(fmt.Sprintf("/ip4/0.0.0.0/tcp/%d", c.ListenPort)),
+		libp2p.AddrsFactory(addressFactory),
 		libp2p.EnableRelay(circuit.OptHop),
 		libp2p.ForceReachabilityPrivate(),
 		libp2p.Identity(privateKey),
