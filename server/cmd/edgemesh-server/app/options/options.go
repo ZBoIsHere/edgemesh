@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"path"
 
+	"k8s.io/apimachinery/pkg/util/validation/field"
+	cliflag "k8s.io/component-base/cli/flag"
+
 	"github.com/kubeedge/edgemesh/server/cmd/edgemesh-server/app/config"
 	"github.com/kubeedge/kubeedge/common/constants"
 	"github.com/kubeedge/kubeedge/pkg/util/validation"
-	"k8s.io/apimachinery/pkg/util/validation/field"
-	cliflag "k8s.io/component-base/cli/flag"
 )
 
 type EdgeMeshServerOptions struct {

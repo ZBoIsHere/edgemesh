@@ -8,7 +8,7 @@ import (
 	"github.com/kubeedge/edgemesh/agent/pkg/tunnel/config"
 	"github.com/kubeedge/edgemesh/agent/pkg/tunnel/controller"
 	"github.com/kubeedge/edgemesh/agent/pkg/tunnel/protocol/tcp"
-	"github.com/kubeedge/edgemesh/common/certificate"
+	"github.com/kubeedge/edgemesh/common/acl"
 	"github.com/kubeedge/edgemesh/common/informers"
 	"github.com/kubeedge/edgemesh/common/modules"
 	"github.com/libp2p/go-libp2p"
@@ -33,7 +33,7 @@ func newTunnelAgent(c *config.TunnelAgentConfig, ifm *informers.Manager) (*Tunne
 
 	controller.Init(ifm)
 
-	privateKey, err := certificate.GetPrivateKey(c.TunnelCertificate, c.NodeName)
+	privateKey, err := acl.GetPrivateKey(c.TunnelACLConfig)
 	if err != nil {
 		return nil, fmt.Errorf("Failed to get private key")
 	}

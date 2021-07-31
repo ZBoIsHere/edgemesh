@@ -4,6 +4,12 @@ import (
 	"fmt"
 	"k8s.io/apimachinery/pkg/util/wait"
 
+	"k8s.io/client-go/pkg/version"
+	cliflag "k8s.io/component-base/cli/flag"
+	"k8s.io/component-base/cli/globalflag"
+	"k8s.io/component-base/term"
+	"k8s.io/klog/v2"
+
 	"github.com/kubeedge/beehive/pkg/core"
 	"github.com/kubeedge/edgemesh/common/informers"
 	"github.com/kubeedge/edgemesh/server/cmd/edgemesh-server/app/config"
@@ -14,11 +20,6 @@ import (
 	"github.com/kubeedge/kubeedge/pkg/util/flag"
 	"github.com/kubeedge/kubeedge/pkg/version/verflag"
 	"github.com/spf13/cobra"
-	"k8s.io/client-go/pkg/version"
-	cliflag "k8s.io/component-base/cli/flag"
-	"k8s.io/component-base/cli/globalflag"
-	"k8s.io/component-base/term"
-	"k8s.io/klog/v2"
 )
 
 func NewEdgeMeshServerCommand() *cobra.Command {

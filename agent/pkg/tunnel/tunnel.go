@@ -44,8 +44,6 @@ func (t *TunnelAgent) Run() {
 		// heartbeat time
 		time.Sleep(10 * time.Second)
 	}
-
-	// TODO ifRotationDone() ????, 后面要添加这个东西，如果证书轮换了，要重新进行连接
 }
 
 func InfoFromHostAndRelay(host host.Host, relay *peer.AddrInfo) *peer.AddrInfo {

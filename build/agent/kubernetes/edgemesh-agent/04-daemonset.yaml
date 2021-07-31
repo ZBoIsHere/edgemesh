@@ -34,11 +34,6 @@ spec:
           image: kubeedge/edgemesh-agent:latest
           imagePullPolicy: IfNotPresent
           env:
-            - name: CLOUDCORE_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: tokensecret
-                  key: tokendata
             - name: MY_NODE_NAME
               valueFrom:
                 fieldRef:
@@ -55,8 +50,8 @@ spec:
               mountPath: /etc/kubeedge/config
             - name: resolv
               mountPath: /etc/resolv.conf
-            - name: certs
-              mountPath: /etc/kubeedge
+            - name: edgemesh
+              mountPath: /etc/kubeedge/edgemesh
             - name: kubeconfig
               mountPath: /root/.kube/config
       volumes:
@@ -66,9 +61,9 @@ spec:
         - name: resolv
           hostPath:
             path: /etc/resolv.conf
-        - name: certs
+        - name: edgemesh
           hostPath:
-            path: /etc/kubeedge
+            path: /etc/kubeedge/edgemesh
             type: DirectoryOrCreate
         - name: kubeconfig
           hostPath:

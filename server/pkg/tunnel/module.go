@@ -4,17 +4,18 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/kubeedge/beehive/pkg/core"
-	"github.com/kubeedge/edgemesh/common/certificate"
-	"github.com/kubeedge/edgemesh/common/informers"
-	"github.com/kubeedge/edgemesh/common/modules"
-	"github.com/kubeedge/edgemesh/server/pkg/tunnel/config"
-	"github.com/kubeedge/edgemesh/server/pkg/tunnel/controller"
 	"github.com/libp2p/go-libp2p"
 	circuit "github.com/libp2p/go-libp2p-circuit"
 	"github.com/libp2p/go-libp2p-core/host"
 	ma "github.com/multiformats/go-multiaddr"
 	"k8s.io/klog/v2"
+
+	"github.com/kubeedge/beehive/pkg/core"
+	"github.com/kubeedge/edgemesh/common/acl"
+	"github.com/kubeedge/edgemesh/common/informers"
+	"github.com/kubeedge/edgemesh/common/modules"
+	"github.com/kubeedge/edgemesh/server/pkg/tunnel/config"
+	"github.com/kubeedge/edgemesh/server/pkg/tunnel/controller"
 )
 
 // TunnelServer is on cloud, as a signal and relay server
@@ -31,7 +32,7 @@ func newTunnelServer(c *config.TunnelServerConfig, ifm *informers.Manager) (serv
 
 	controller.Init(ifm)
 
-	privateKey, err := certificate.GetPrivateKey(c.TunnelCertificate, c.NodeName)
+	privateKey, err := acl.GetPrivateKey(c.TunnelACLConfig)
 	if err != nil {
 		return server, err
 	}

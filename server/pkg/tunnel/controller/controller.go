@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/kubeedge/edgemesh/common/constants"
-	"github.com/kubeedge/edgemesh/common/informers"
 	"github.com/libp2p/go-libp2p-core/peer"
 	apicorev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -15,6 +13,9 @@ import (
 	typecorev1 "k8s.io/client-go/kubernetes/typed/core/v1"
 	k8slisters "k8s.io/client-go/listers/core/v1"
 	"k8s.io/client-go/tools/cache"
+
+	"github.com/kubeedge/edgemesh/common/constants"
+	"github.com/kubeedge/edgemesh/common/informers"
 )
 
 var (

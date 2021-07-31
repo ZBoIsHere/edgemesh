@@ -5,7 +5,7 @@ import (
 	"os"
 	"path"
 
-	"github.com/kubeedge/edgemesh/common/certificate"
+	"github.com/kubeedge/edgemesh/common/acl"
 	meshConstants "github.com/kubeedge/edgemesh/common/constants"
 	tunnelserverconfig "github.com/kubeedge/edgemesh/server/pkg/tunnel/config"
 	"github.com/kubeedge/kubeedge/common/constants"
@@ -46,11 +46,6 @@ func NewEdgeMeshServerConfig() *EdgeMeshServerConfig {
 		klog.Fatalf("env %s not exist", meshConstants.MY_NODE_NAME)
 		os.Exit(1)
 	}
-	cloudcoreToken, isExist := os.LookupEnv(meshConstants.CLOUDCORE_TOKEN)
-	if !isExist {
-		klog.Fatalf("env %s not exist", meshConstants.CLOUDCORE_TOKEN)
-		os.Exit(1)
-	}
 
 	c := &EdgeMeshServerConfig{
 		TypeMeta: metav1.TypeMeta{
@@ -67,13 +62,8 @@ func NewEdgeMeshServerConfig() *EdgeMeshServerConfig {
 		Modules: &Modules{
 			TunnelServer: &tunnelserverconfig.TunnelServerConfig{
 				Enable: true,
-				TunnelCertificate: certificate.TunnelCertificate{
-					TLSCAFile:          constants.DefaultCAFile,
-					TLSCertFile:        constants.DefaultCertFile,
-					TLSPrivateKeyFile:  constants.DefaultKeyFile,
-					Token:              cloudcoreToken,
-					HTTPServer:         "https://127.0.0.1:10002",
-					RotateCertificates: true,
+				TunnelACLConfig: acl.TunnelACLConfig{
+					TLSPrivateKeyFile:  meshConstants.ServerDefaultKeyFile,
 				},
 				NodeName:   nodeName,
 				ListenPort: 10004,
