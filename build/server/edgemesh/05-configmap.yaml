@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cloudcore
+  name: edgemesh-server
   namespace: kubeedge
   labels:
     k8s-app: kubeedge
@@ -11,4 +11,5 @@ data:
     modules:
       tunnel:
         enable: true
-        httpServer: "https://127.0.0.1:10002"
+        httpServer: "https://119.8.58.38:10002"
+        publicIP: "119.8.58.38"
