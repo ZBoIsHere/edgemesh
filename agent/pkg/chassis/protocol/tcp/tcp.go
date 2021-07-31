@@ -36,13 +36,6 @@ type TCP struct {
 
 // Process process
 func (p *TCP) Process() {
-	defer func() {
-		err := p.Conn.Close()
-		if err != nil {
-			klog.Errorf("close conn error: ", err)
-		}
-	}()
-
 	// create invocation
 	inv := invocation.New(context.WithValue(context.Background(), "tcp", p))
 
@@ -73,6 +66,10 @@ func (p *TCP) Process() {
 func (p *TCP) responseCallback(data *invocation.Response) error {
 	if data.Err != nil {
 		klog.Errorf("handle l4 proxy err : %v", data.Err)
+		err := p.Conn.Close()
+		if err != nil {
+			klog.Errorf("close conn err: %v", err)
+		}
 		return data.Err
 	}
 	return nil
