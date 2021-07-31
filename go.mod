@@ -7,13 +7,24 @@ require (
 	github.com/cespare/xxhash v1.1.0
 	github.com/go-chassis/go-archaius v0.20.0
 	github.com/go-chassis/go-chassis v1.7.1
-	github.com/hashicorp/golang-lru v0.5.4 // indirect
+	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
+	github.com/golang/protobuf v1.4.3
+	github.com/google/go-cmp v0.5.3 // indirect
+	github.com/google/uuid v1.1.2 // indirect
 	github.com/kubeedge/beehive v0.0.0
 	github.com/kubeedge/kubeedge v1.6.2
-	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
+	github.com/libp2p/go-libp2p v0.13.1
+	github.com/libp2p/go-libp2p-circuit v0.4.0
+	github.com/libp2p/go-libp2p-core v0.8.5
+	github.com/libp2p/go-msgio v0.0.6
+	github.com/multiformats/go-multiaddr v0.3.1
 	github.com/spf13/cobra v1.0.0
 	github.com/vishvananda/netlink v1.1.0
-	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
+	go.uber.org/multierr v1.6.0 // indirect
+	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
+	golang.org/x/net v0.0.0-20210423184538-5f58ad60dda6 // indirect
+	golang.org/x/sys v0.0.0-20210426080607-c94f62235c83 // indirect
+	google.golang.org/protobuf v1.25.0 // indirect
 	istio.io/api v0.0.0-20210131044048-bfeb10697307
 	istio.io/client-go v0.0.0-20210218000043-b598dd019200
 	k8s.io/api v0.19.10
@@ -29,6 +40,7 @@ require (
 replace (
 	github.com/kubeedge/beehive v0.0.0 => github.com/kubeedge/beehive v0.0.0-20201125122335-cd19bca6e436
 	github.com/kubeedge/viaduct v0.0.0 => github.com/kubeedge/viaduct v0.0.0-20210601015050-d832643a3d35
+	github.com/libp2p/go-libp2p v0.13.1 => github.com/ZBoIsHere/go-libp2p v0.13.1-0.20210802084905-a3fee654040f
 	k8s.io/api v0.0.0 => k8s.io/api v0.19.3
 	k8s.io/apiextensions-apiserver v0.0.0 => k8s.io/apiextensions-apiserver v0.19.3
 	k8s.io/apimachinery v0.0.0 => k8s.io/apimachinery v0.19.3
