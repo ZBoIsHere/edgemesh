@@ -122,5 +122,5 @@ GO_LDFLAGS='$(shell hack/make-rules/version.sh)'
 .PHONY: images agentimage serverimage
 images: agentimage serverimage
 agentimage serverimage:
-	docker build --build-arg GO_LDFLAGS=${GO_LDFLAGS} -t $kubeedge/edgemesh-${@:image=}:${IMAGE_TAG} -f build/${@:image=}/Dockerfile .
+	docker build --build-arg GO_LDFLAGS=${GO_LDFLAGS} -t kubeedge/edgemesh-${@:image=}:${IMAGE_TAG} -f build/${@:image=}/Dockerfile .
 

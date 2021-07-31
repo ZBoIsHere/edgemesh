@@ -57,6 +57,8 @@ spec:
               mountPath: /etc/resolv.conf
             - name: certs
               mountPath: /etc/kubeedge
+            - name: kubeconfig
+              mountPath: /root/.kube/config
       volumes:
         - name: conf
           configMap:
@@ -68,3 +70,7 @@ spec:
           hostPath:
             path: /etc/kubeedge
             type: DirectoryOrCreate
+        - name: kubeconfig
+          hostPath:
+            path: /root/.kube/config
+

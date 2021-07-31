@@ -13,8 +13,8 @@ data:
     kubeAPIConfig:
       burst: 200
       contentType: application/vnd.kubernetes.protobuf
-      kubeConfig: ""
-      master: "http://127.0.0.1:10550"
+      kubeConfig: "/root/.kube/config"
+      master: ""
       qps: 100
     goChassisConfig:
       protocol:
@@ -38,7 +38,7 @@ data:
         listenPort: 53
       edgeProxy:
         enable: true
-        subNet: 10.10.0.0/16
+        subNet: 10.96.0.0/12
         listenInterface: docker0
         listenPort: 40001
       edgeGateway:
@@ -49,4 +49,4 @@ data:
       tunnel:
         enable: true
         httpServer: "https://119.8.58.38:10002"
-        tunnelServer: ""
+        tunnelServer: "/ip4/119.8.58.38/tcp/10004/p2p/QmQsAe1mZPduyZo1YXoBZDFCj1mA57rpKwYQ22cMBB1ebA"
