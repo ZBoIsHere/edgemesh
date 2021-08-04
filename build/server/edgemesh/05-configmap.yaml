@@ -11,5 +11,4 @@ data:
     modules:
       tunnel:
         enable: true
-        httpServer: "https://127.0.0.1:10002"
         publicIP: "127.0.0.1"
