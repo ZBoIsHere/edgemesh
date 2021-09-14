@@ -89,10 +89,8 @@ func (esd *EdgeServiceDiscovery) FindMicroServiceInstances(consumerID, microServ
 	if targetPort == 0 {
 		return nil, fmt.Errorf("targetPort %d not found in service: %s.%s", svcPort, namespace, name)
 	}
-
-	// transport http data through tcp transparently
 	if proto == "http" {
-		proto = "tcp"
+		proto = "rest"
 	}
 
 	// gen MicroServiceInstances
